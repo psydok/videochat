@@ -1,3 +1,34 @@
 <resources>
-    <string name="app_name">videochat</string>
+    <string name="app_name">VideoChat</string>
+
+    <!-- Auth -->
+    <string name="sign_in">Войти</string>
+    <string name="create_account">Регистрация</string>
+    <string name="sign_out">Выйти</string>
+    <string name="verify_email">Подтвердить email</string>
+    <string name="disconnect">Разъединение</string>
+    <string name="loading">Загрузка…</string>
+    <string name="custom_token">Custom Token</string>
+    <string name="signed_in">Вошел</string>
+    <string name="signed_out">Вы вышли из системы</string>
+    <string name="token_null">Token: null</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Пароль</string>
+    <string name="desc_videochat_lockup">VideoChat logo and name</string>
+    <string name="auth_failed">Ошибка аутентификации</string>
+    <string name="status_sign_in_failed">Ошибка входа</string>
+    <string name="instant_validation">(instant validation)</string>
+    <string name="emailpassword_status_fmt">Ваш Email: %1$s (verified: %2$b)</string>
+    <string name="firebase_status_fmt">Firebase UID: %s</string>
+    <string name="emailpassword_title_text">Вход в систему</string>
+    <string name="reload">Обновить</string>
+    <string name="desc_send_email">Письмо с подтверждением отправлено на адрес </string>
+    <string name="send_email_failed">Не удалось отправить письмо с подтверждением.</string>
+    <string name="required">Заполните поле</string>
+
+    <!-- Main -->
+    <string name="category">Категории</string>
+    <string name="setting">Настройки</string>
+    <string name="profile">Профиль</string>
+
 </resources>

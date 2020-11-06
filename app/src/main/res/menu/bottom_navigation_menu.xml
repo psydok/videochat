@@ -5,15 +5,15 @@
         android:id="@+id/profile"
         android:enabled="true"
         android:icon="@drawable/ic_person"
-        android:title="Profile"/>
+        android:title="@string/profile"/>
     <item
         android:id="@+id/category"
         android:enabled="true"
         android:icon="@drawable/ic_category"
-        android:title="Category"/>
+        android:title="@string/category"/>
     <item
         android:id="@+id/setting"
         android:enabled="true"
         android:icon="@drawable/ic_settings"
-        android:title="Setting"/>
+        android:title="@string/setting"/>
 </menu>

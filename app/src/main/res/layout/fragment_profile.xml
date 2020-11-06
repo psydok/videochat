@@ -4,11 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".view.category.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Profile" />
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/titleProfile"
+            style="@style/ThemeOverlay.FirebaseIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:text="@string/profile"
+            android:theme="@style/ThemeOverlay.MyTitleText" />
+
+        <RelativeLayout
+            android:id="@+id/infoAboutUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleProfile">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/title_bottom_margin"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/status"
+                    style="@style/ThemeOverlay.MyTextDetail"
+                    android:text="@string/signed_out" />
+
+                <TextView
+                    android:id="@+id/detail"
+                    style="@style/ThemeOverlay.MyTextDetail"
+                    tools:text="Firebase User ID: 123456789abc" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/infoAboutUser">
+
+            <LinearLayout
+                android:id="@+id/profileInButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <Button
+                    android:id="@+id/signOutButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/button_horizontal_margin"
+                    android:layout_marginEnd="@dimen/button_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="@string/sign_out"
+                    android:theme="@style/ThemeOverlay.MyDarkButton" />
+
+
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 </RelativeLayout>

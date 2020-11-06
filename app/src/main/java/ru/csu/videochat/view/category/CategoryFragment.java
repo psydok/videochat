@@ -1,4 +1,4 @@
-package ru.csu.videochat.view;
+package ru.csu.videochat.view.category;
 
 
 import android.os.Bundle;

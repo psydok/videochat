@@ -1,4 +1,4 @@
-package ru.csu.videochat.view;
+package ru.csu.videochat.view.category;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import ru.csu.videochat.R;
+import ru.csu.videochat.view.category.CategoryFragment;
+import ru.csu.videochat.view.category.ProfileFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                     currentFragment = CategoryFragment.newInstance();
                     break;
                 case R.id.setting:
-                    Toast.makeText(getApplicationContext(), "setting", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "togo: setting", Toast.LENGTH_LONG).show();
                     break;
             }
             getSupportFragmentManager().beginTransaction()
