@@ -1,6 +1,7 @@
-package ru.csu.videochat.view.category;
+package ru.csu.videochat.activities.category;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +10,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import ru.csu.videochat.R;
-import ru.csu.videochat.view.category.CategoryFragment;
-import ru.csu.videochat.view.category.ProfileFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,9 +28,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.category);
+        MenuItem itemNext = bottomNavigationView.getMenu().findItem(R.id.setting);
+        itemNext.setEnabled(false);
+        itemNext.setVisible(false);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.profile:

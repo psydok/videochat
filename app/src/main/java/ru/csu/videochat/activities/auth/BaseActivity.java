@@ -1,4 +1,4 @@
-package ru.csu.videochat.view.auth;
+package ru.csu.videochat.activities.auth;
 
 import android.content.Context;
 import android.view.View;

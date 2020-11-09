@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/next"
+        android:enabled="true"
+        android:icon="@drawable/ic_next"
+        android:title="@string/next" />
+
+    <item
+        android:id="@+id/exit"
+        android:enabled="true"
+        android:icon="@drawable/ic_close"
+        android:title="@string/exit" />
+</menu>

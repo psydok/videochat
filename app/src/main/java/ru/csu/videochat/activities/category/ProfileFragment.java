@@ -1,4 +1,4 @@
-package ru.csu.videochat.view.category;
+package ru.csu.videochat.activities.category;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import ru.csu.videochat.R;
-import ru.csu.videochat.view.auth.AuthActivity;
+import ru.csu.videochat.activities.auth.AuthActivity;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
     public static ProfileFragment newInstance() {

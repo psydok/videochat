@@ -4,7 +4,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_shadow_end_color"
+    android:background="@drawable/background_search_user"
     android:orientation="vertical"
     android:weightSum="4">
 
@@ -42,7 +42,7 @@
         <TextView
             android:id="@+id/status"
             style="@style/ThemeOverlay.MyTextDetail"
-            android:text="@string/signed_out" />
+            android:text="@string/signed_out"/>
 
         <TextView
             android:id="@+id/detail"
@@ -65,16 +65,18 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fieldEmail"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/hint_email"
                 android:inputType="textEmailAddress" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fieldPassword"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

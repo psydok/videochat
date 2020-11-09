@@ -31,4 +31,9 @@
     <string name="setting">Настройки</string>
     <string name="profile">Профиль</string>
 
+    <!-- Video -->
+    <string name="exit">Выход</string>
+    <string name="next">Дальше</string>
+    <string name="select_category">Категория %s</string>
+
 </resources>
