@@ -6,8 +6,8 @@ public class User {
     public User() {
     }
 
-    public User(String token) {
-        this.uidToken = token;
+    public User(String uidToken) {
+        this.uidToken = uidToken;
     }
 
     public String getUidToken() {

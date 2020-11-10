@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VideoChat</string>
+    <string name="app_name">Vimee</string>
 
     <!-- Auth -->
     <string name="sign_in">Войти</string>
@@ -18,13 +18,14 @@
     <string name="auth_failed">Ошибка аутентификации</string>
     <string name="status_sign_in_failed">Ошибка входа</string>
     <string name="instant_validation">(instant validation)</string>
-    <string name="emailpassword_status_fmt">Ваш Email: %1$s (verified: %2$b)</string>
-    <string name="firebase_status_fmt">Firebase UID: %s</string>
+    <string name="emailpassword_status_fmt">Ваш Email: %1$s (подтвержден: %2$b)</string>
+    <string name="firebase_status_fmt">Идентификатор пользователя: %s</string>
     <string name="emailpassword_title_text">Вход в систему</string>
     <string name="reload">Обновить</string>
     <string name="desc_send_email">Письмо с подтверждением отправлено на адрес </string>
     <string name="send_email_failed">Не удалось отправить письмо с подтверждением.</string>
-    <string name="required">Заполните поле</string>
+    <string name="required">Введите ваш действующий email</string>
+    <string name="required_password">Пароль должен содержать не менее 6 символов</string>
 
     <!-- Main -->
     <string name="category">Категории</string>

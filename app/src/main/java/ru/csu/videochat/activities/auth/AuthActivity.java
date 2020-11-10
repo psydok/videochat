@@ -1,6 +1,7 @@
 package ru.csu.videochat.activities.auth;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,11 +29,15 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+
+        // Inner memory
+        sharedPreferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
 
         // Views
         mStatusTextView = findViewById(R.id.status);
@@ -45,15 +50,14 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
         findViewById(R.id.verifyEmailButton).setOnClickListener(this);
+        findViewById(R.id.reloadButton).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
-                // User is signed in
                 Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
             } else {
-                // User is signed out
                 Log.d(TAG, "onAuthStateChanged:signed_out");
             }
             updateUI(user);
@@ -67,8 +71,20 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         updateUI(currentUser);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String key = "isFirstStart";
+        if (sharedPreferences.getBoolean(key, true)) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(key, false).apply();
+            editor.apply();
+            editor.commit();
+            mStatusTextView.setVisibility(View.INVISIBLE);
+        } else mStatusTextView.setVisibility(View.VISIBLE);
+    }
+
     private void createAccount(String email, String password) {
-        Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
             return;
         }
@@ -78,11 +94,9 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Log.d(TAG, "createUserWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
                     } else {
-                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
                         Toast.makeText(AuthActivity.this, getString(R.string.auth_failed),
                                 Toast.LENGTH_SHORT).show();
                         updateUI(null);
@@ -93,7 +107,6 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void signIn(String email, String password) {
-        Log.d(TAG, "signIn:" + email);
         if (!validateForm()) {
             return;
         }
@@ -102,13 +115,9 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithEmail:failure", task.getException());
                         Toast.makeText(AuthActivity.this, getString(R.string.auth_failed),
                                 Toast.LENGTH_SHORT).show();
                         updateUI(null);
@@ -127,22 +136,16 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void sendEmailVerification() {
-        // Disable button
         findViewById(R.id.verifyEmailButton).setEnabled(false);
 
-        // Send verification email
         final FirebaseUser user = mAuth.getCurrentUser();
         user.sendEmailVerification()
                 .addOnCompleteListener(this, task -> {
-                    // Re-enable button
-                    findViewById(R.id.verifyEmailButton).setEnabled(true);
-
                     if (task.isSuccessful()) {
                         Toast.makeText(AuthActivity.this,
                                 getString(R.string.desc_send_email) + user.getEmail(),
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        Log.e(TAG, "sendEmailVerification", task.getException());
                         Toast.makeText(AuthActivity.this,
                                 getString(R.string.send_email_failed),
                                 Toast.LENGTH_SHORT).show();
@@ -162,8 +165,8 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         }
 
         String password = mPasswordField.getText().toString();
-        if (TextUtils.isEmpty(password)) {
-            mPasswordField.setError(getString(R.string.required));
+        if (TextUtils.isEmpty(password) || password.length() < 6) {
+            mPasswordField.setError(getString(R.string.required_password));
             valid = false;
         } else {
             mPasswordField.setError(null);
@@ -176,7 +179,9 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         hideProgressBar();
         if (user != null) {
             if (user.isEmailVerified()) {
-                startActivity(new Intent(this, MainActivity.class));
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             } else {
                 mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
                         user.getEmail(), user.isEmailVerified()));
@@ -198,18 +203,31 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    private void updateUser() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        user.reload();
+        updateUI(user);
+    }
 
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.emailCreateAccountButton) {
-            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.emailSignInButton) {
-            signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.signOutButton) {
-            signOut();
-        } else if (i == R.id.verifyEmailButton) {
-            sendEmailVerification();
+        switch (i) {
+            case R.id.emailCreateAccountButton:
+                createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+                break;
+            case R.id.emailSignInButton:
+                signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+                break;
+            case R.id.signOutButton:
+                signOut();
+                break;
+            case R.id.verifyEmailButton:
+                sendEmailVerification();
+                break;
+            case R.id.reloadButton:
+                updateUser();
+                break;
         }
     }
 }

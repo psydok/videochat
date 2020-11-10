@@ -14,7 +14,8 @@
         android:theme="@style/Theme.Videochat"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".activities.chat.ChatActivity"></activity>
+        <activity android:name=".activities.chat.VideoChatActivity"></activity>
+        <activity android:name=".activities.chat.SearchChatActivity" />
         <activity
             android:name=".activities.auth.AuthActivity"
             android:screenOrientation="portrait"

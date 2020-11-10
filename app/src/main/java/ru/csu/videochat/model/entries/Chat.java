@@ -1,14 +1,23 @@
 package ru.csu.videochat.model.entries;
 
 public class Chat {
-    private String uid1Token, uid2Token;
+    private String uid1Token, uid2Token, category;
 
     public Chat() {
     }
 
-    public Chat(String uid1_token, String uid2_token) {
-        this.uid1Token = uid1_token;
-        this.uid2Token = uid2_token;
+    public Chat(String uid1Token, String uid2Token, String categoryChat) {
+        this.uid1Token = uid1Token;
+        this.uid2Token = uid2Token;
+        this.category = categoryChat;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getUid1Token() {
