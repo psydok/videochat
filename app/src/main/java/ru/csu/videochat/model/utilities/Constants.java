@@ -9,6 +9,7 @@ public class Constants {
     public static final String KEY_CATEGORY_ID = "category";
     public static final String KEY_CHAT_ID = "chat_id";
     public static final String KEY_USER_ID = "uidToken";
+    public static final String KEY_AGE_ID = "yourAge";
 
     public static final String KEY_CHAT_UID_FIRST_TOKEN = "uid1Token";
     public static final String KEY_CHAT_UID_SECOND_TOKEN = "uid2Token";
@@ -32,6 +33,10 @@ public class Constants {
     public static final String REMOTE_MSG_MEETING_TYPE = "meetingType";
 
     public static final String REMOTE_MSG_MEETING_ROOM = "meetingRoom";
+
+    public static final String KEY_YOUR_AGE = "your_age";
+    public static final String KEY_COMPANION_AGES = "companion_age";
+
 
     public static HashMap<String, String> getRemoteMessageHeaders() {
         HashMap<String, String> headers = new HashMap<>();

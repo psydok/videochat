@@ -8,15 +8,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@drawable/shape_category">
+        android:background="@drawable/shape_category"/>
 
-    </ImageView>
-
-    <TextView
-        android:id="@+id/nameCategory"
-        style="@style/TextView"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Общее" />
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/nameCategory"
+            style="@style/TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Общее" />
+
+        <TextView
+            android:id="@+id/countChats"
+            style="@style/TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0" />
+    </LinearLayout>
+
 </RelativeLayout>

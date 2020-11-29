@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import ru.csu.videochat.R;
+import ru.csu.videochat.model.utilities.PreferenceManager;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -59,4 +60,10 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.fragment_container, currentFragment).commit();
     }
 
+    @Override
+    protected void onDestroy() {
+        PreferenceManager manager = new PreferenceManager(this);
+        manager.cleanPreference();
+        super.onDestroy();
+    }
 }

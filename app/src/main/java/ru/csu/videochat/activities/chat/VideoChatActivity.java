@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import ru.csu.videochat.R;
-import ru.csu.videochat.model.SearchChatModel;
-import ru.csu.videochat.presents.VideoChatPresent;
 
 public class VideoChatActivity extends AppCompatActivity {
 

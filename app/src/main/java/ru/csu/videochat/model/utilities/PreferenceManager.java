@@ -3,6 +3,8 @@ package ru.csu.videochat.model.utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+
 import ru.csu.videochat.model.utilities.Constants;
 
 public class PreferenceManager {
@@ -30,6 +32,22 @@ public class PreferenceManager {
 
     public String getString(String key) {
         return sharedPreferences.getString(key, null);
+    }
+
+    public void putStringArray(String key, String[] array) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key + "_size", array.length);
+        for (int i = 0; i < array.length; i++)
+            editor.putString(key + "_" + i, array[i]);
+        editor.apply();
+    }
+
+    public String[] getStringArray(String key) {
+        int size = sharedPreferences.getInt(key + "_size", 0);
+        String[] array = new String[size];
+        for (int i = 0; i < size; i++)
+            array[i] = sharedPreferences.getString(key + "_" + i, null);
+        return array;
     }
 
     public void cleanPreference() {

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/groupAges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip1"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/age_17"
+            android:textAlignment="center"
+            android:theme="@style/Theme.MaterialComponents.BottomSheetDialog" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip2"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="@string/age_18_21"
+            android:textAlignment="center"
+            android:theme="@style/Theme.MaterialComponents.BottomSheetDialog" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip3"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="@string/age_22_25"
+            android:textAlignment="center"
+            android:theme="@style/Theme.MaterialComponents.BottomSheetDialog" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip4"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="@string/age_26_30"
+            android:textAlignment="center"
+            android:theme="@style/Theme.MaterialComponents.BottomSheetDialog" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip5"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="@string/age_31"
+            android:textAlignment="center"
+            android:theme="@style/Theme.MaterialComponents.BottomSheetDialog" />
+    </com.google.android.material.chip.ChipGroup>
+</LinearLayout>

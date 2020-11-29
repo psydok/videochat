@@ -31,10 +31,17 @@
     <string name="category">Категории</string>
     <string name="setting">Настройки</string>
     <string name="profile">Профиль</string>
+    <string name="filter_text">Фильтрация пользователей</string>
 
     <!-- Video -->
     <string name="exit">Выход</string>
     <string name="next">Дальше</string>
     <string name="select_category">Категория %s</string>
+    <string name="fail_connect_ethe">Проверьте подключение к Интернету</string>
+    <string name="age_17">до 17</string>
+    <string name="age_18_21">от 18 до 21</string>
+    <string name="age_22_25">от 22 до 25</string>
+    <string name="age_26_30">от 26 до 30</string>
+    <string name="age_31">старше 31</string>
 
 </resources>

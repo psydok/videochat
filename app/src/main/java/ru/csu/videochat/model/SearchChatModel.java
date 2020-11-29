@@ -1,28 +1,41 @@
 package ru.csu.videochat.model;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.csu.videochat.R;
 import ru.csu.videochat.model.entries.Chat;
 import ru.csu.videochat.model.entries.User;
+import ru.csu.videochat.model.utilities.CategoryAdapter;
 import ru.csu.videochat.model.utilities.Constants;
 import ru.csu.videochat.model.utilities.PreferenceManager;
 import ru.csu.videochat.network.ApiClient;
@@ -48,45 +61,90 @@ public class SearchChatModel {
     }
 
     public void loadChat(String selectedCategory, ICompleteCallback callback) {
-        database
-                .collection(Constants.KEY_COLLECTION_CHATS)
-                .whereEqualTo(Constants.KEY_CHAT_UID_SECOND_TOKEN, "")
-                .whereEqualTo(Constants.KEY_CATEGORY_ID, selectedCategory)
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    // Подключаем второго юзера
-                    Chat chat = null;
-                    String documentId = null;
-                    List<DocumentSnapshot> documents = querySnapshot.getDocuments();
-                    if (documents == null || documents.isEmpty()) {
-                        // Создаем новый чат
-                        addChat(selectedCategory, callback);
-                        return;
-                    }
+        String[] ages = preferenceManager.getStringArray(Constants.KEY_COMPANION_AGES);
+        String yourAge = preferenceManager.getString(Constants.KEY_YOUR_AGE);
+        Task<QuerySnapshot> task;
+        if (ages.length == 0)
+            task = database
+                    .collection(Constants.KEY_COLLECTION_CHATS)
+                    .whereEqualTo(Constants.KEY_CHAT_UID_SECOND_TOKEN, "")
+                    .whereEqualTo(Constants.KEY_CATEGORY_ID, selectedCategory)
+                    .whereEqualTo(Constants.KEY_AGE_ID, "")
+                    .get();
+        else {
+            task = database
+                    .collection(Constants.KEY_COLLECTION_CHATS)
+                    .whereEqualTo(Constants.KEY_CHAT_UID_SECOND_TOKEN, "")
+                    .whereEqualTo(Constants.KEY_CATEGORY_ID, selectedCategory)
+                    .whereEqualTo(yourAge, "true")
+                    .whereIn(Constants.KEY_AGE_ID, Arrays.asList(ages))
+                    .get();
+        }
+        task.addOnSuccessListener(querySnapshot -> {
+            // Подключаем второго юзера
+            Chat chat = null;
+            String documentId = null;
+            List<DocumentSnapshot> documents = querySnapshot.getDocuments();
+            if (documents == null || documents.isEmpty()) {
+                // Создаем новый чат
+                if (ages.length == 0)
+                    addChat(selectedCategory, callback, null);
+                else addChat(selectedCategory, callback, ages);
+                return;
+            }
 
-                    for (DocumentSnapshot document : documents) {
-                        Log.e("Model", document.getData().toString());
-                        chat = document.toObject(Chat.class);
-                        documentId = document.getId();
+            for (DocumentSnapshot document : documents) {
+                Log.e("Model", document.getData().toString());
+                chat = document.toObject(Chat.class);
+                documentId = document.getId();
 
-                        preferenceManager.putString(Constants.KEY_CHAT_ID, documentId);
+                preferenceManager.putString(Constants.KEY_CHAT_ID, documentId);
 
-                        break;
-                    }
-                    if (chat != null && documentId != null) {
-                        updateChat(documentId);
-                        callback.onComplete(new User(chat.getUid2Token()));
-                    }
-                })
+                break;
+            }
+            if (chat != null && documentId != null) {
+                updateChat(documentId);
+                callback.onComplete(new User(chat.getUid2Token()));
+            }
+        })
                 .addOnFailureListener(exception -> {
                 });
 
     }
 
-    private void addChat(String selectedCategory, ICompleteCallback callback) {
+    private void addChat(String selectedCategory, ICompleteCallback callback, String[] ages) {
         String fcmToken = MessagingService.getToken(context);
+        Chat chat;
+        if (ages != null) {
+            String yourAge = preferenceManager.getString(Constants.KEY_YOUR_AGE);
+            String age17 = "", age21 = "", age25 = "", age30 = "", age31 = "";
+            for (String age : ages) {
+                if (age.equals("age17")) {
+                    age17 = "true";
+                    continue;
+                }
+                if (age.equals("age21")) {
+                    age21 = "true";
+                    continue;
+                }
+                if (age.equals("age25")) {
+                    age25 = "true";
+                    continue;
+                }
+                if (age.equals("age30")) {
+                    age30 = "true";
+                    continue;
+                }
+                if (age.equals("age31")) {
+                    age31 = "true";
+                }
+            }
+            chat = new Chat(fcmToken, "", selectedCategory, yourAge,
+                    age17, age21, age25, age30, age31);
 
-        Chat chat = new Chat(fcmToken, "", selectedCategory);
+        } else chat = new Chat(fcmToken, "", selectedCategory, "",
+                "", "", "", "", "");
+
 
         DocumentReference newChat = database.collection(Constants.KEY_COLLECTION_CHATS).document();
         preferenceManager.putString(Constants.KEY_CHAT_ID, newChat.getId());
@@ -235,6 +293,4 @@ public class SearchChatModel {
         } catch (Exception ignored) {
         }
     }
-
-
 }
