@@ -44,7 +44,13 @@ public class CategoryAdapter extends ArrayAdapter<String> {
 
         TextView countChats = convertView.findViewById(R.id.countChats);
         countChats.setClickable(true);
-        CategoryModel.getCountChats(categoryTitle, count -> countChats.setText(String.valueOf(count)));
+        if (CategoryModel.isNetworkAvailable(context)) {
+            CategoryModel.getCountChats(categoryTitle, count -> {
+                if (count == -1)
+                    countChats.setVisibility(View.GONE);
+                else countChats.setText(String.valueOf(count));
+            });
+        } else countChats.setVisibility(View.GONE);
 
         convertView.setClickable(true);
         convertView.setOnClickListener(v -> onClick(context, categoryTitle));
@@ -60,7 +66,7 @@ public class CategoryAdapter extends ArrayAdapter<String> {
             if (category != null) {
                 intent.putExtra(Constants.KEY_CATEGORY_ID, category);
                 context.startActivity(intent);
-            } else Log.e("Adapter", "Category is null");
+            } else Log.e("CAdapter", "Name category is NULL!!!");
         } else
             Toast.makeText(context, context.getString(R.string.fail_connect_ethe), Toast.LENGTH_SHORT).show();
 

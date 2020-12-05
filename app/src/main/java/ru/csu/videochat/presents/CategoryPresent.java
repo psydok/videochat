@@ -1,5 +1,7 @@
 package ru.csu.videochat.presents;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import ru.csu.videochat.activities.category.CategoryFragment;
@@ -32,4 +34,14 @@ public class CategoryPresent {
         preferenceManager.cleanPreference();
     }
 
+    public void loadFilter() {
+        Context context = view.getContext();
+        PreferenceManager preferenceManager = new PreferenceManager(view.getContext());
+        String yourAge = PreferenceManager.getValueIfAge(context, preferenceManager.getString(Constants.KEY_YOUR_AGE));
+        String[] ages = preferenceManager.getStringArray(Constants.KEY_COMPANION_AGES);
+        for (int i = 0; i < ages.length; i++) {
+            ages[i] = PreferenceManager.getValueIfAge(context, ages[i]);
+        }
+        view.showExistFilter(yourAge, ages);
+    }
 }

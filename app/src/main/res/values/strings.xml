@@ -31,7 +31,7 @@
     <string name="category">Категории</string>
     <string name="setting">Настройки</string>
     <string name="profile">Профиль</string>
-    <string name="filter_text">Фильтрация пользователей</string>
+    <string name="filter_text">Настроить фильтр</string>
 
     <!-- Video -->
     <string name="exit">Выход</string>

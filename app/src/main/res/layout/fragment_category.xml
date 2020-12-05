@@ -10,144 +10,170 @@
         android:id="@+id/filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/title_bottom_margin"
-        android:gravity="end"
-        android:orientation="horizontal">
+        android:layout_marginLeft="@dimen/title_bottom_margin"
+        android:layout_marginTop="@dimen/title_bottom_margin"
+        android:layout_marginRight="@dimen/title_bottom_margin"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/filterImg"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
-            android:padding="4dp"
-            android:src="@drawable/ic_filter" />
+            android:gravity="end"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/filterText"
-            style="@style/TextView"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/filterImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:padding="4dp"
+                android:src="@drawable/ic_filter" />
+
+            <TextView
+                android:id="@+id/filterText"
+                style="@style/TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="4dp"
+                android:text="@string/filter_text"
+                android:textColor="@color/grey_500" />
+        </LinearLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/existFilter"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="4dp"
-            android:text="@string/filter_text"
-            android:textColor="@color/grey_500" />
-
+            android:visibility="gone" />
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/categories"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="32dp">
+        android:layout_height="match_parent"
+        android:layout_below="@id/filter">
 
-        <TextView
-            android:id="@+id/titleCategory"
-            style="@style/ThemeOverlay.FirebaseIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:text="@string/category"
-            android:theme="@style/ThemeOverlay.MyTitleText" />
-
-        <GridView
-            android:id="@+id/gridViewCategory"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/titleCategory"
-            android:layout_margin="24dp"
-            android:columnWidth="100dp"
-            android:horizontalSpacing="5dp"
-            android:numColumns="auto_fit"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="35dp"
-            tools:listitem="@layout/item_category" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleCategory"
+                style="@style/ThemeOverlay.FirebaseIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:theme="@style/ThemeOverlay.MyTitleText" />
+
+            <GridView
+                android:id="@+id/gridViewCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleCategory"
+                android:layout_margin="24dp"
+                android:columnWidth="100dp"
+                android:horizontalSpacing="5dp"
+                android:numColumns="auto_fit"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="35dp"
+                tools:listitem="@layout/item_category" />
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/filterSetting"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="@dimen/title_bottom_margin"
-        android:background="@drawable/background_filter"
-        android:gravity="center"
-        android:padding="@dimen/title_bottom_margin">
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:clickable="true"
+        android:visibility="gone">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/title_bottom_margin"
+            android:background="@drawable/background_filter"
             android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/titleFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/title_bottom_margin"
-                android:text="Настройка фильтра"
-                android:textColor="@color/black"
-                android:theme="@style/ThemeOverlay.MyTitleText" />
+            android:padding="@dimen/title_bottom_margin">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/titleFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/title_bottom_margin"
+                    android:text="Настройка фильтра"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:theme="@style/ThemeOverlay.MyTitleText" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                    <TextView
-                        android:id="@+id/titleCategory12"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Ваш возраст:"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:theme="@style/TextView" />
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <include
-                        android:id="@+id/yourAgeInclude"
-                        layout="@layout/item_filter_age" />
+                        <TextView
+                            android:id="@+id/titleCategory12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ваш возраст:"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:theme="@style/TextView" />
+
+                        <include
+                            android:id="@+id/yourAgeInclude"
+                            layout="@layout/item_filter_age" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/titleCategory1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Возраст собеседника:"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:theme="@style/TextView" />
+
+                        <include
+                            android:id="@+id/companionAgeInclude"
+                            layout="@layout/item_filter_age" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <Button
+                    android:id="@+id/goneFilter"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/titleCategory1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Возраст собеседника:"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:theme="@style/TextView" />
-
-                    <include
-                        android:id="@+id/companionAgeInclude"
-                        layout="@layout/item_filter_age" />
-                </LinearLayout>
-
+                    android:text="Установить"
+                    android:theme="@style/ThemeOverlay.MyDarkButton" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/goneFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Установить"
-                android:theme="@style/ThemeOverlay.MyDarkButton" />
-        </LinearLayout>
-
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

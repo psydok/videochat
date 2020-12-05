@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.chip.Chip;
@@ -36,7 +37,7 @@ public class CategoryFragment extends Fragment {
     private Chip yourAgeChip;
     private ChipGroup companionAgeChips;
     private Button goneFilter;
-
+    private ChipGroup groupExistChip;
     private CategoryPresent present;
 
     private static final String[] data = {
@@ -59,15 +60,34 @@ public class CategoryFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         CategoryModel model = CategoryModel.getInstance(getContext());
-        CategoryPresent present = new CategoryPresent(this, model);
+        present = new CategoryPresent(this, model);
 
-        // Layout Filter
+        initFilter(view);
+        present.loadFilter();
+        // Categories
+        adapter = new CategoryAdapter(getContext());
+        GridView gvMain = (GridView) view.findViewById(R.id.gridViewCategory);
+        gvMain.setAdapter(adapter);
+        if (data != null)
+            showCategories(data);
+
+
+        return view;
+    }
+
+    public void showCategories(String[] categories) {
+        adapter.setData(categories);
+    }
+
+    private void initFilter(View view) {
+        groupExistChip = view.findViewById(R.id.existFilter);
+        // init buttons for Layout Filter
         filterText = (TextView) view.findViewById(R.id.filterText);
         filterImg = (ImageView) view.findViewById(R.id.filterImg);
-
         setAnimate();
         setClickFilter();
 
+        // Show layout
         layoutFilter = (RelativeLayout) view.findViewById(R.id.filterSetting);
         layoutFilter.setVisibility(View.GONE);
 
@@ -98,25 +118,21 @@ public class CategoryFragment extends Fragment {
         goneFilter.setOnClickListener(v -> {
             int countCompanionAges = companionAgeChips.getCheckedChipIds().size();
             if (countCompanionAges > 0) {
-//                yourAgeChips.setSelectionRequired(true);
                 if (yourAgeChips.getCheckedChipIds().size() == 0 || yourAgeChip == null) {
                     Toast.makeText(getContext(), "Установите свой возраст", Toast.LENGTH_SHORT).show();
                 } else {
-                    String yourAgeText = keyAge(yourAgeChip.getText().toString());
-
+                    String yourAgeText = yourAgeChip.getText().toString();
                     String[] companionAges = new String[countCompanionAges];
-
                     int i = 0;
                     int j = 0;
                     while (i < companionAgeChips.getChildCount()) {
                         Chip chip = (Chip) companionAgeChips.getChildAt(i);
                         if (chip.isChecked()) {
-                            companionAges[j] = keyAge(chip.getText().toString());
+                            companionAges[j] = chip.getText().toString();
                             j++;
                         }
                         i++;
                     }
-
                     present.saveFilter(yourAgeText, companionAges);
                     layoutFilter.setVisibility(View.GONE);
                 }
@@ -125,40 +141,32 @@ public class CategoryFragment extends Fragment {
                 yourAgeChips.setSelectionRequired(false);
                 layoutFilter.setVisibility(View.GONE);
             }
+            present.loadFilter();
         });
-
-        // Categories
-        adapter = new CategoryAdapter(getContext());
-        GridView gvMain = (GridView) view.findViewById(R.id.gridViewCategory);
-        gvMain.setAdapter(adapter);
-        if (data != null)
-            showCategories(data);
-
-        return view;
     }
 
-    private String keyAge(String age) {
-        Context context = getContext();
-        if (age.equals(context.getString(R.string.age_17))) {
-            return "age17";
+    public void showExistFilter(String yourAge, String[] ages) {
+        groupExistChip.removeAllViews();
+        groupExistChip.setVisibility(View.VISIBLE);
+        for (String age : ages) {
+            Chip chip = new Chip(getContext());
+            chip.setText(age);
+            groupExistChip.addView(chip);
+            for (int i = 0; i < companionAgeChips.getChildCount(); i++) {
+                Chip chipTemp = (Chip) companionAgeChips.getChildAt(i);
+                if (chipTemp.getText().toString().equals(age)) {
+                    chipTemp.setChecked(true);
+                }
+            }
         }
-        if (age.equals(context.getString(R.string.age_18_21))) {
-            return "age21";
-        }
-        if (age.equals(context.getString(R.string.age_22_25))) {
-            return "age25";
-        }
-        if (age.equals(context.getString(R.string.age_26_30))) {
-            return "age30";
-        }
-        if (age.equals(context.getString(R.string.age_31))) {
-            return "age31";
-        }
-        return "";
-    }
 
-    public void showCategories(String[] categories) {
-        adapter.setData(categories);
+        for (int i = 0; i < yourAgeChips.getChildCount(); i++) {
+            Chip chipTemp = (Chip) yourAgeChips.getChildAt(i);
+            if (chipTemp.getText().toString().equals(yourAge)) {
+                chipTemp.setChecked(true);
+                break;
+            }
+        }
     }
 
     private void animateText(int fromColor, int toColor) {
@@ -173,7 +181,7 @@ public class CategoryFragment extends Fragment {
 
         final float[] hsv = new float[3];
         anim.addUpdateListener(animation -> {
-            // Transition along each axis of HSV (hue, saturation, value)
+            // Переход по каждой оси HSV (оттенок, насыщенность, значение)
             hsv[0] = from[0] + (to[0] - from[0]) * animation.getAnimatedFraction();
             hsv[1] = from[1] + (to[1] - from[1]) * animation.getAnimatedFraction();
             hsv[2] = from[2] + (to[2] - from[2]) * animation.getAnimatedFraction();
@@ -192,6 +200,9 @@ public class CategoryFragment extends Fragment {
         animateText(getContext().getColor(R.color.grey_500), getContext().getColor(R.color.white));
     }
 
+    /**
+     * Установить обработку нажатия текст на Фильтрации
+     */
     private void setClickFilter() {
         filterText.setClickable(true);
         filterImg.setClickable(true);

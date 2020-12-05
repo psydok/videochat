@@ -36,7 +36,7 @@ public class CategoryModel {
                         }
                 )
                 .addOnFailureListener(e -> {
-                    callback.onComplete(0);
+                    callback.onComplete(-1);
                 });
     }
 
