@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private TextView mStatusTextView;
     private TextView mDetailTextView;
+    private ListView mListViewLinks;
     private FirebaseAuth mAuth;
 
     @Nullable
@@ -37,8 +39,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         FirebaseUser user = mAuth.getCurrentUser();
         mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
                 user.getEmail(), user.isEmailVerified()));
-        mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+        mDetailTextView.setText(getString(R.string.other_links));
         view.findViewById(R.id.signOutButton).setOnClickListener(this);
+        view.findViewById(R.id.addLink).setOnClickListener(this);
 
         return view;
     }
@@ -46,11 +49,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.signOutButton) {
-            mAuth.signOut();
-            Toast.makeText(getContext(), getString(R.string.signed_out), Toast.LENGTH_LONG).show();
-            startActivity(new Intent(getContext(), AuthActivity.class));
+        switch (id) {
+            case R.id.addLink:
+                Toast.makeText(getContext(), "togo", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.signOutButton:
+                mAuth.signOut();
+                Toast.makeText(getContext(), getString(R.string.signed_out), Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getContext(), AuthActivity.class));
+                break;
         }
-
     }
 }

@@ -43,5 +43,6 @@
     <string name="age_22_25">от 22 до 25</string>
     <string name="age_26_30">от 26 до 30</string>
     <string name="age_31">старше 31</string>
+    <string name="other_links">Другие соц. сети:</string>
 
 </resources>

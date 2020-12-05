@@ -6,18 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".activities.category.MainActivity">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/title_bottom_margin"
+        android:layout_marginTop="@dimen/title_bottom_margin"
+        android:layout_marginRight="@dimen/title_bottom_margin">
+
+        <LinearLayout
+            android:id="@+id/profileInButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/signOutButton"
+                style="@style/TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="@string/sign_out"
+                android:textColor="@color/grey_500"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutInfo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/titleProfile"
             style="@style/ThemeOverlay.FirebaseIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
             android:text="@string/profile"
             android:theme="@style/ThemeOverlay.MyTitleText" />
 
@@ -56,46 +90,65 @@
 
                 </RelativeLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/title_bottom_margin"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/status"
-                    style="@style/ThemeOverlay.MyTextDetail"
-                    android:text="@string/signed_out" />
+                    <TextView
+                        android:id="@+id/status"
+                        style="@style/ThemeOverlay.MyTextDetail"
+                        android:layout_marginBottom="@dimen/title_bottom_margin"
+                        android:text="Ваш Email: " />
 
-                <TextView
-                    android:id="@+id/detail"
-                    style="@style/ThemeOverlay.MyTextDetail"
-                    tools:text="Firebase User ID: 123456789abc" />
+                    <TextView
+                        android:id="@+id/detail"
+                        style="@style/ThemeOverlay.MyTextDetail"
+                        android:layout_marginBottom="@dimen/title_bottom_margin"
+                        android:visibility="gone"
+                        tools:text="@string/other_links" />
+
+
+                    <LinearLayout
+                        android:id="@+id/layoutInputLink"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/title_bottom_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLink"
+                            style="@style/MyTextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:hint="Добавьте URL на вашу страницу"
+                            android:theme="@style/MyTextInputLayoutStyle"
+                            app:endIconMode="clear_text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/textEditLink"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLength="250"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:textColor="@color/white" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <Button
+                            android:id="@+id/addLink"
+                            style="@style/ThemeOverlay.MyDarkButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="OK" />
+                    </LinearLayout>
+
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/infoAboutUser">
-
-            <LinearLayout
-                android:id="@+id/profileInButtons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <Button
-                    android:id="@+id/signOutButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="@dimen/button_horizontal_margin"
-                    android:layout_marginEnd="@dimen/button_horizontal_margin"
-                    android:layout_weight="1"
-                    android:text="@string/sign_out"
-                    android:theme="@style/ThemeOverlay.MyDarkButton" />
-
-
-            </LinearLayout>
-        </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
