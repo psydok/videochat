@@ -46,9 +46,9 @@ public class CategoryAdapter extends ArrayAdapter<String> {
         countChats.setClickable(true);
         if (CategoryModel.isNetworkAvailable(context)) {
             CategoryModel.getCountChats(categoryTitle, count -> {
+                countChats.setText(String.valueOf(count));
                 if (count == -1)
                     countChats.setVisibility(View.GONE);
-                else countChats.setText(String.valueOf(count));
             });
         } else countChats.setVisibility(View.GONE);
 
