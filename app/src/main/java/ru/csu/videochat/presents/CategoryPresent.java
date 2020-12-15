@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import ru.csu.videochat.activities.category.CategoryFragment;
+import ru.csu.videochat.interfaces.ICategoryListener;
 import ru.csu.videochat.model.CategoryModel;
 import ru.csu.videochat.model.utilities.Constants;
 import ru.csu.videochat.model.utilities.PreferenceManager;
@@ -43,5 +44,14 @@ public class CategoryPresent {
             ages[i] = PreferenceManager.getValueIfAge(context, ages[i]);
         }
         view.showExistFilter(yourAge, ages);
+    }
+
+    public void loadCategories() {
+        model.getThemes(new ICategoryListener() {
+            @Override
+            public void showThemes(String[] themes) {
+                view.showCategories(themes);
+            }
+        });
     }
 }

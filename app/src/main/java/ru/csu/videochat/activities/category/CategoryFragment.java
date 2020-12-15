@@ -40,14 +40,6 @@ public class CategoryFragment extends Fragment {
     private ChipGroup groupExistChip;
     private CategoryPresent present;
 
-    private static final String[] data = {
-            "Знакомства",
-            "Фильмы",
-            "Игры",
-            "Общение",
-            "Книги",
-            "Помощь"
-    };
 
     public static CategoryFragment newInstance() {
         return new CategoryFragment();
@@ -64,14 +56,12 @@ public class CategoryFragment extends Fragment {
 
         initFilter(view);
         present.loadFilter();
+
         // Categories
         adapter = new CategoryAdapter(getContext());
         GridView gvMain = (GridView) view.findViewById(R.id.gridViewCategory);
         gvMain.setAdapter(adapter);
-        if (data != null)
-            showCategories(data);
-
-
+        present.loadCategories();
         return view;
     }
 

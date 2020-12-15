@@ -256,7 +256,7 @@ public class SearchChatModel {
     }
 
     private void sendRemoteMessage(String remoteMessageBody, String type) {
-        ApiClient.getClient().create(IApiService.class)
+        ApiClient.getClient("https://fcm.googleapis.com/fcm/").create(IApiService.class)
                 .sendRemoteMessage(
                         Constants.getRemoteMessageHeaders(),
                         remoteMessageBody

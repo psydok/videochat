@@ -15,8 +15,18 @@ import androidx.annotation.Nullable;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.csu.videochat.R;
 import ru.csu.videochat.activities.category.MainActivity;
+import ru.csu.videochat.model.utilities.Constants;
+import ru.csu.videochat.network.ApiClient;
+import ru.csu.videochat.network.CommunicationWithServer;
+import ru.csu.videochat.network.IApiService;
 
 public class AuthActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
@@ -115,6 +125,7 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        CommunicationWithServer.sendMessageAutho(email, password);
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
                     } else {
