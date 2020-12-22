@@ -3,7 +3,7 @@
 
     <!-- Auth -->
     <string name="sign_in">Войти</string>
-    <string name="create_account">Регистрация</string>
+    <string name="create_account">Зарегистрироваться</string>
     <string name="sign_out">Выйти</string>
     <string name="verify_email">Подтвердить email</string>
     <string name="disconnect">Разъединение</string>
@@ -12,7 +12,7 @@
     <string name="signed_in">Вошел</string>
     <string name="signed_out">Вы вышли из системы</string>
     <string name="token_null">Token: null</string>
-    <string name="hint_email">Email</string>
+    <string name="hint_email">Логин</string>
     <string name="hint_password">Пароль</string>
     <string name="desc_videochat_lockup">VideoChat logo and name</string>
     <string name="auth_failed">Ошибка аутентификации</string>

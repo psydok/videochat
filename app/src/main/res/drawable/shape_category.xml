@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
     <size
-        android:width="100dp"
-        android:height="100dp" />
-    <solid android:color="@color/purple_500" />
-    <stroke
-        android:width="1dp"
-        android:color="#fff" />
+        android:width="190dp"
+        android:height="190dp"
+        />
+    <corners
+        android:topLeftRadius="@dimen/field_radius"
+        android:topRightRadius="@dimen/field_radius"
+        android:bottomRightRadius="@dimen/field_radius"
+        android:bottomLeftRadius="@dimen/field_radius">
+    </corners>
+    <solid
+        android:color="@color/blue_main">
+    </solid>
+    <padding
+        android:left="3dp"
+        android:top="3dp"
+        android:right="3dp"
+        android:bottom="3dp" />
 </shape>

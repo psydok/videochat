@@ -1,12 +1,10 @@
 package ru.csu.videochat.network;
 
-import android.util.Base64;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import retrofit2.Call;
@@ -18,17 +16,63 @@ import ru.csu.videochat.model.entries.MessageCategories;
 import ru.csu.videochat.model.utilities.Constants;
 
 public class CommunicationWithServer {
-    private final static String server = "http://88.206.99.52/";
-    private final static String host = "88.206.99.52";
+    private final static String server = "http://88.206.94.139";
+    private final static String host = "88.206.94.139";
 
     public static String getHost() {
         return host;
     }
 
-    public static void sendMessageAutho(String email, String password) {
+    public static String getServer() {
+        return server;
+    }
+
+    public static void sendMessageRegister(String email, String password) {
         try {
             JSONObject body = getBody(email, password);
-            sendMessageAuthoServer(body.toString(), Constants.REMOTE_MSG_AUTHORIZATION);
+            ApiClient.getClient(server).create(IApiService.class)
+                    .getRegistration(body.toString())
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            if (response.isSuccessful()) {
+                                Log.e("@@@+",  response.body());
+                            } else {
+                                Log.e("SendRemote-", response.message());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Log.e("@@@", call.toString());
+                            Log.e("@@@", t.getMessage());
+                        }
+                    });
+        } catch (Exception exception) {
+        }
+    }
+
+    public static void sendMessageAuth(String email, String password) {
+        try {
+            JSONObject body = getBody(email, password);
+            ApiClient.getClient(server).create(IApiService.class)
+                    .getAuthorization(body.toString())
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            if (response.isSuccessful()) {
+                                Log.e("@@@+",  response.body());
+                            } else {
+                                Log.e("SendRemote-", response.message());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Log.e("@@@", call.toString());
+                            Log.e("@@@", t.getMessage());
+                        }
+                    });
         } catch (Exception exception) {
         }
     }
@@ -43,37 +87,13 @@ public class CommunicationWithServer {
     private static JSONObject getBody(String email, String password) {
         try {
             JSONObject body = new JSONObject();
-            String credentials = email + ":" + password;
-            final String basic =
-                    "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
-            body.put(Constants.REMOTE_MSG_AUTHORIZATION, "Basic " + basic);
-            body.put(Constants.REMOTE_MSG_TYPE, Constants.REMOTE_MSG_AUTHORIZATION);
+            body.put(Constants.KEY_LOGIN, email);
+            body.put(Constants.KEY_PASSWORD, password);
             return body;
         } catch (Exception exception) {
             Log.e("getBody", exception.getMessage());
             return null;
         }
-    }
-
-    private static void sendMessageAuthoServer(String body, String typeMessage) {
-        ApiClient.getClient(server).create(IApiService.class)
-                .getAuthorization(body)
-                .enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        if (response.isSuccessful()) {
-                            Log.e("@@@", "123");
-                        } else {
-                            Log.e("SendRemote", response.message());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Log.e("@@@", call.toString());
-                        Log.e("@@@", t.getMessage());
-                    }
-                });
     }
 
     private static void sendMessageThemeServer(ICategoryListener listener) {

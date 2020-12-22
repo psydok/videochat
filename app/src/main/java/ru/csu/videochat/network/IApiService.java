@@ -9,12 +9,12 @@ import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 /**
  * Определяем api для отправки удаленных сообщений
  */
 public interface IApiService {
+    // POST запросы
     @POST("send")
     Call<String> sendRemoteMessage(
             @HeaderMap HashMap<String, String> headers,
@@ -22,28 +22,42 @@ public interface IApiService {
     );
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @GET("api/themes/")
+    @POST("joinChat")
+    Call<String> joinChat(String body);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8",
+            "Accept: application/json;charset=UTF-8"})
+    @POST("register")
+    Call<String> getRegistration(String body);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("addLinks")
+    Call<String> addLinks(String body);
+
+    // GET запросы
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("/")
+    Call<String> check();
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/themes")
     Call<String> getThemes();
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @GET("api/charts/")
-    Call<String> getCharts();
-
-    @Headers({"Content-Type: application/json;charset=UTF-8",
-            "Accept: application/json;charset=UTF-8"})
-    @POST("auth/")
-    Call<String> getAuthorization(String auth);
-
-    @Headers({"Content-Type: application/json;charset=UTF-8",
-            "Accept: application/json;charset=UTF-8"})
-    @POST("register/")
-    Call<String> getRegistration(String auth);
+    @GET("api/charts")
+    Call<String> getCharts(String body);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @GET("isinchat/")
-    Call<String> isInChat(@Header("Authorization") String auth);
+    @GET("leaveChat")
+    Call<String> leaveChat(String body);
 
+    @Headers({"Content-Type: application/json;charset=UTF-8",
+            "Accept: application/json;charset=UTF-8"})
+    @GET("auth")
+    Call<String> getAuthorization(String body);
 
-
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("isInChat")
+    Call<String> isInChat(@Header("Authorization") String body);
 
 }

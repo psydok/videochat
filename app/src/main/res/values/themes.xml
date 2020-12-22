@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Videochat" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/blue_main</item>
+        <item name="colorPrimaryVariant">@color/grey_main</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -15,8 +15,9 @@
     </style>
 
     <style name="AllTextView" parent="Theme.Videochat">
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/montserrat_extrabold</item>
+        <item name="android:textColor">@color/blue_main</item>
+        <item name="android:textSize">@dimen/text_size</item>
     </style>
 
     <style name="TextView" parent="AllTextView">
@@ -24,7 +25,7 @@
     </style>
 
     <style name="ThemeOverlay.MyTitleText" parent="AllTextView">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="fontFamily">@font/montserrat_extrabold</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">36sp</item>
     </style>
@@ -56,9 +57,19 @@
     <style name="MyTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">#fff</item>
         <item name="boxStrokeWidth">1dp</item>
-        <item name="fontFamily">sans-serif-light</item>
+        <item name="fontFamily">@font/montserrat_extrabold</item>
         <item name="android:textColorHint">#B3FFFFFF</item>
         <item name="hintTextColor">#fff</item>
         <item name="endIconTint">#B3FFFFFF</item>
     </style>
+
+
+    <style name="ThemeOverlay.MainButton" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorButtonNormal">@color/grey_500</item>
+        <item name="colorAccent">@color/design_default_color_on_secondary</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>

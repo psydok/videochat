@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.util.Log;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -14,14 +15,23 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.csu.videochat.interfaces.ICategoryListener;
 import ru.csu.videochat.model.utilities.CategoryAdapter;
 import ru.csu.videochat.model.utilities.Constants;
+import ru.csu.videochat.network.ApiClient;
 import ru.csu.videochat.network.CommunicationWithServer;
+import ru.csu.videochat.network.IApiService;
 
 public class CategoryModel {
 
     private Context context;
+
+    public interface IComplete {
+        void onComplete(boolean check);
+    }
 
     public CategoryModel(Context context) {
         this.context = context;
@@ -47,15 +57,19 @@ public class CategoryModel {
     }
 
     public void getThemes(ICategoryListener listener) {
-        if (isHostAvailable(CommunicationWithServer.getHost(), 80, 2000))
-            CommunicationWithServer.sendMessageThemes(listener);
-        else listener.showThemes(new String[]{
-                "Знакомства",
-                "Фильмы",
-                "Игры",
-                "Общение",
-                "Книги",
-                "Помощь"
+        isHostAvailable(CommunicationWithServer.getServer(), check -> {
+            if (check) {
+                CommunicationWithServer.sendMessageThemes(listener);
+            } else {
+                listener.showThemes(new String[]{
+                        "Знакомства",
+                        "Фильмы",
+                        "Игры",
+                        "Общение",
+                        "Книги",
+                        "Помощь"
+                });
+            }
         });
     }
 
@@ -87,22 +101,32 @@ public class CategoryModel {
     /**
      * Check if host is reachable.
      *
-     * @param host    The host to check for availability. Can either be a machine name, such as "google.com",
-     *                or a textual representation of its IP address, such as "8.8.8.8".
-     * @param port    The port number.
-     * @param timeout The timeout in milliseconds.
-     * @return True if the host is reachable. False otherwise.
+     * @param server The host to check for availability. Can either be a machine name, such as "google.com",
+     *               or a textual representation of its IP address, such as "8.8.8.8".
      */
-    public static boolean isHostAvailable(final String host, final int port, final int timeout) {
-        try (final Socket socket = new Socket()) {
-            final InetAddress inetAddress = InetAddress.getByName(host);
-            final InetSocketAddress inetSocketAddress = new InetSocketAddress(inetAddress, port);
+    public static void isHostAvailable(final String server, IComplete listener) {
+        try {
+            ApiClient.getClient(server).create(IApiService.class)
+                    .check().enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if (response.isSuccessful()) {
+                        Log.e("@@@+", response.body());
+                    } else {
+                        Log.e("SendRemote-", response.message());
+                    }
+                    listener.onComplete(true);
+                }
 
-            socket.connect(inetSocketAddress, timeout);
-            return true;
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Log.e("@@@-", t.getMessage());
+                    listener.onComplete(false);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            listener.onComplete(false);
         }
     }
 }

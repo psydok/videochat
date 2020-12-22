@@ -23,19 +23,20 @@ public class Constants {
     public static final String REMOTE_MSG_TYPE = "type";
 
     public static final String REMOTE_MSG_INVITATION = "invitation";
-    public static final String REMOTE_MSG_INVITATION_RESPONSE = "invitation_response";
-
 
     public static final String REMOTE_MSG_INVITER_TOKEN = "inviterToken";
     public static final String REMOTE_MSG_DATA = "data";
 
     public static final String REMOTE_MSG_REGISTRATION_IDS = "registration_ids";
-    public static final String REMOTE_MSG_MEETING_TYPE = "meetingType";
 
     public static final String REMOTE_MSG_MEETING_ROOM = "meetingRoom";
 
     public static final String KEY_YOUR_AGE = "your_age";
     public static final String KEY_COMPANION_AGES = "companion_age";
+
+    public static final String KEY_LOGIN = "login";
+    public static final String KEY_PASSWORD = "password";
+    public static final String KEY_TOKEN = "token";
 
 
     public static HashMap<String, String> getRemoteMessageHeaders() {

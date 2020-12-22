@@ -15,24 +15,15 @@ import androidx.annotation.Nullable;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import ru.csu.videochat.R;
 import ru.csu.videochat.activities.category.MainActivity;
-import ru.csu.videochat.model.utilities.Constants;
-import ru.csu.videochat.network.ApiClient;
 import ru.csu.videochat.network.CommunicationWithServer;
-import ru.csu.videochat.network.IApiService;
 
 public class AuthActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
 
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
+   // private TextView mStatusTextView;
+   // private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
 
@@ -50,8 +41,8 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         sharedPreferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
 
         // Views
-        mStatusTextView = findViewById(R.id.status);
-        mDetailTextView = findViewById(R.id.detail);
+      //  mStatusTextView = findViewById(R.id.status);
+       // mDetailTextView = findViewById(R.id.detail);
         mEmailField = findViewById(R.id.fieldEmail);
         mPasswordField = findViewById(R.id.fieldPassword);
 
@@ -84,14 +75,14 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        String key = "isFirstStart";
-        if (sharedPreferences.getBoolean(key, true)) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(key, false).apply();
-            editor.apply();
-            editor.commit();
-            mStatusTextView.setVisibility(View.INVISIBLE);
-        } else mStatusTextView.setVisibility(View.VISIBLE);
+//        String key = "isFirstStart";
+//        if (sharedPreferences.getBoolean(key, true)) {
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putBoolean(key, false).apply();
+//            editor.apply();
+//            editor.commit();
+//            mStatusTextView.setVisibility(View.INVISIBLE);
+//        } else mStatusTextView.setVisibility(View.VISIBLE);
     }
 
     private void createAccount(String email, String password) {
@@ -104,6 +95,7 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        CommunicationWithServer.sendMessageRegister(email, password);
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
                     } else {
@@ -125,7 +117,7 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        CommunicationWithServer.sendMessageAutho(email, password);
+                        CommunicationWithServer.sendMessageAuth(email, password);
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
                     } else {
@@ -135,7 +127,7 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                     }
 
                     if (!task.isSuccessful()) {
-                        mStatusTextView.setText(R.string.auth_failed);
+                //        mStatusTextView.setText(R.string.auth_failed);
                     }
                     hideProgressBar();
                 });
@@ -194,9 +186,9 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             } else {
-                mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
-                        user.getEmail(), user.isEmailVerified()));
-                mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+             //   mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
+             //           user.getEmail(), user.isEmailVerified()));
+            //    mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
                 findViewById(R.id.emailPasswordButtons).setVisibility(View.GONE);
                 findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
@@ -205,9 +197,8 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                 findViewById(R.id.verifyEmailButton).setEnabled(!user.isEmailVerified());
             }
         } else {
-            mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
+//            mStatusTextView.setText(R.string.signed_out);
+//            mDetailTextView.setText(null);
             findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
             findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
             findViewById(R.id.signedInButtons).setVisibility(View.GONE);
