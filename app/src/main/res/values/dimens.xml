@@ -14,8 +14,10 @@
 
     <dimen name="button_horizontal_margin">8dp</dimen>
 
-    <dimen name="stroke_width">5dp</dimen>
+    <dimen name="stroke_width">4dp</dimen>
     <dimen name="mtrl_textinput_box_stroke_width_default">@dimen/stroke_width</dimen>
     <dimen name="mtrl_textinput_box_stroke_width_focused">@dimen/stroke_width</dimen>
+
+    <dimen name="size_text_sub_main">24sp</dimen>
 
 </resources>

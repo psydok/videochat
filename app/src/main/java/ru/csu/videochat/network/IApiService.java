@@ -9,6 +9,7 @@ import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Определяем api для отправки удаленных сообщений
@@ -22,17 +23,17 @@ public interface IApiService {
     );
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @POST("joinChat")
-    Call<String> joinChat(String body);
+    @POST("api/joinChat")
+    Call<String> joinChat(@Body String body);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("api/updateUser")
+    Call<String> updateUser(@Body String body);
 
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Accept: application/json;charset=UTF-8"})
-    @POST("register")
-    Call<String> getRegistration(String body);
-
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @POST("addLinks")
-    Call<String> addLinks(String body);
+    @POST("api/register")
+    Call<String> getRegistration(@Body String body);
 
     // GET запросы
     @Headers({"Content-Type: application/json;charset=UTF-8"})
@@ -45,19 +46,19 @@ public interface IApiService {
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("api/charts")
-    Call<String> getCharts(String body);
+    Call<String> getCharts(@Body String body);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @GET("leaveChat")
-    Call<String> leaveChat(String body);
+    @GET("api/leaveChat")
+    Call<String> leaveChat(@Body String body);
 
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Accept: application/json;charset=UTF-8"})
-    @GET("auth")
-    Call<String> getAuthorization(String body);
+    @GET("api/auth")
+    Call<String> getAuthorization(@Body String body);
 
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @GET("isInChat")
-    Call<String> isInChat(@Header("Authorization") String body);
-
+    @Headers({"Content-Type: application/json;charset=UTF-8",
+            "Accept: application/json;charset=UTF-8"})
+    @GET("resources/themes/{image}")
+    Call<String> getImage(@Path("image") String image);
 }

@@ -1,22 +1,32 @@
 package ru.csu.videochat.network;
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.csu.videochat.activities.auth.AuthActivity;
 import ru.csu.videochat.interfaces.ICategoryListener;
 import ru.csu.videochat.model.entries.Category;
+import ru.csu.videochat.model.entries.MessageAuth;
 import ru.csu.videochat.model.entries.MessageCategories;
+import ru.csu.videochat.model.entries.StatusServer;
+import ru.csu.videochat.model.utilities.CategoryAdapter;
 import ru.csu.videochat.model.utilities.Constants;
+import ru.csu.videochat.model.utilities.PreferenceManager;
 
 public class CommunicationWithServer {
-    private final static String server = "http://88.206.94.139";
+    private final static String server = "http://88.206.94.139:8080";
     private final static String host = "88.206.94.139";
 
     public static String getHost() {
@@ -27,6 +37,23 @@ public class CommunicationWithServer {
         return server;
     }
 
+    private static void saveToken(String responseBody) {
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        MessageAuth messageAuth = gson.fromJson(responseBody, MessageAuth.class);
+        String token = messageAuth.getToken();
+
+        PreferenceManager.putServerToken(AuthActivity.contextApp, token);
+    }
+
+    private static int getStatusMessage(String body) {
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        StatusServer messageAuth = gson.fromJson(body, StatusServer.class);
+        int status = messageAuth.getStatus();
+        return status;
+    }
+
     public static void sendMessageRegister(String email, String password) {
         try {
             JSONObject body = getBody(email, password);
@@ -35,17 +62,16 @@ public class CommunicationWithServer {
                     .enqueue(new Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
-                            if (response.isSuccessful()) {
-                                Log.e("@@@+",  response.body());
-                            } else {
-                                Log.e("SendRemote-", response.message());
+                            String body = response.body();
+                            if (getStatusMessage(body) == 1) {
+                                saveToken(body);
                             }
                         }
 
                         @Override
                         public void onFailure(Call<String> call, Throwable t) {
-                            Log.e("@@@", call.toString());
-                            Log.e("@@@", t.getMessage());
+                            Log.e("MessageRegister", "onFailure" + call.toString());
+                            Log.e("MessageRegister", "onFailure" + t.getMessage());
                         }
                     });
         } catch (Exception exception) {
@@ -61,16 +87,17 @@ public class CommunicationWithServer {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
                             if (response.isSuccessful()) {
-                                Log.e("@@@+",  response.body());
-                            } else {
-                                Log.e("SendRemote-", response.message());
+                                String body = response.body();
+                                if (getStatusMessage(body) == 1) {
+                                    saveToken(body);
+                                }
                             }
                         }
 
                         @Override
                         public void onFailure(Call<String> call, Throwable t) {
-                            Log.e("@@@", call.toString());
-                            Log.e("@@@", t.getMessage());
+                            Log.e("MessageAuth", "onFailure: " + call.toString());
+                            Log.e("MessageAuth", "onFailure: " + t.getMessage());
                         }
                     });
         } catch (Exception exception) {
@@ -96,6 +123,13 @@ public class CommunicationWithServer {
         }
     }
 
+    private static MessageCategories getResponseMessageCategories(String body) {
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        MessageCategories messageCategories = gson.fromJson(body, MessageCategories.class);
+        return messageCategories;
+    }
+
     private static void sendMessageThemeServer(ICategoryListener listener) {
         ApiClient.getClient(server).create(IApiService.class)
                 .getThemes()
@@ -103,26 +137,65 @@ public class CommunicationWithServer {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if (response.isSuccessful()) {
-                            String themes = response.body();
-                            GsonBuilder builder = new GsonBuilder();
-                            Gson gson = builder.create();
-                            MessageCategories messageCategories = gson.fromJson(themes, MessageCategories.class);
-                            Category[] categories = messageCategories.getCategories();
-                            String[] names = new String[categories.length];
-                            for (int i = 0; i < categories.length; i++) {
-                                names[i] = categories[i].getName();
+                            String body = response.body();
+                            List<Pair<String, String>> themes = new ArrayList<>();
+                            if (getStatusMessage(body) != 1) {
+                                List<Pair<String, String>> pairs = new ArrayList<Pair<String, String>>();
+                                pairs.add(new Pair<>("Спорт", "https://gtrk-saratov.ru/wp-content/uploads/2019/12/5f2f983b1d838ee26be6b93a38fa378c.jpg"));
+                                pairs.add(new Pair<>("Кино", "https://cdn22.img.ria.ru/images/91548/33/915483359_0:203:3888:2390_600x0_80_0_0_d82704e34388d68bdcf57766e7b0b361.jpg"));
+                                pairs.add(new Pair<>("Игры", "https://www.goodnewsfinland.com/wp-content/uploads/2019/08/Games-765x430.png"));
+                                pairs.add(new Pair<>("Кулинария", "https://recipesbook.ru/uploads/posts/2012-08/1345130069_finskaya-kuhnya.jpeg"));
+                                pairs.add(new Pair<>("Литература", "https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/132/309/image/base_93959877b0.jpg"));
+                                pairs.add(new Pair<>("Музыка", "https://m.iguides.ru/upload/iblock/3a0/3a0569a7237bbfb5406580deed8a9958.jpg"));
+                                listener.showThemes(themes);
+                                return;
                             }
-                            listener.showThemes(names);
-                            Log.e("@@@", names.toString());
+                            MessageCategories messageCategories = getResponseMessageCategories(body);
+                            Category[] categories = messageCategories.getThemes();
+                            for (int i = 0; i < categories.length; i++) {
+                                themes.add(new Pair<>(categories[i].getName(), server + "/"
+                                        + categories[i].getImage().replace("\\", "")));
+                            }
+                            listener.showThemes(themes);
                         } else {
-                            Log.e("SendServer", response.message());
+                            Log.e("ThemeServer", response.message());
                         }
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-                        Log.e("@@@1", call.toString());
-                        Log.e("@@@2", t.getMessage());
+                        Log.e("ThemeServer", "onFailure: " + call.toString());
+                        Log.e("ThemeServer", "onFailure: " + t.getMessage());
+                    }
+                });
+    }
+
+    public static void sendMessageLink(String token, String link) {
+        JSONObject body = new JSONObject();
+        try {
+            body.put(Constants.KEY_TOKEN, token);
+            body.put(Constants.KEY_LINK, link);
+        } catch (Exception exception) {
+            Log.e("BodyLink", exception.getMessage());
+        }
+
+        ApiClient.getClient(server).create(IApiService.class)
+                .updateUser(body.toString())
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            String body = response.body();
+                            if (getStatusMessage(body) == 1) {
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.e("MessageLink", "onFailure: " + call.toString());
+                        Log.e("MessageLink", "onFailure: " + t.getMessage());
                     }
                 });
     }

@@ -18,7 +18,8 @@
     <string name="auth_failed">Ошибка аутентификации</string>
     <string name="status_sign_in_failed">Ошибка входа</string>
     <string name="instant_validation">(instant validation)</string>
-    <string name="emailpassword_status_fmt">Ваш Email: %1$s (подтвержден: %2$b)</string>
+    <string name="emailpassword_status_fmt">
+        Ваш Email: %1$s\n%2$s\n </string>
     <string name="firebase_status_fmt">Идентификатор пользователя: %s</string>
     <string name="emailpassword_title_text">Вход в систему</string>
     <string name="reload">Обновить</string>
@@ -34,6 +35,7 @@
     <string name="filter_text">Настроить фильтр</string>
 
     <!-- Video -->
+    <string name="search_chat">Поиск собеседника</string>
     <string name="exit">Выход</string>
     <string name="next">Дальше</string>
     <string name="select_category">Категория %s</string>
@@ -44,5 +46,9 @@
     <string name="age_26_30">от 26 до 30</string>
     <string name="age_31">старше 31</string>
     <string name="other_links">Другие соц. сети:</string>
+    <!--  Profile -->
+    <string name="done">OK</string>
+    <string name="cancel">Отмена</string>
+    <string name="set_title_link">Ссылка на ваш контакт</string>
 
 </resources>

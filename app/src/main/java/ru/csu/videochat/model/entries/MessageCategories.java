@@ -10,13 +10,13 @@ public class MessageCategories {
     @JsonProperty(value = "error")
     private String error;
     @JsonProperty(value = "themes")
-    private Category[] categories;
+    private Category[] themes;
 
-    public MessageCategories(String status, String message, String error, Category[] categories) {
+    public MessageCategories(String status, String message, String error, Category[] themes) {
         this.status = status;
         this.message = message;
         this.error = error;
-        this.categories = categories;
+        this.themes = themes;
     }
 
     public String getStatus() {
@@ -43,11 +43,11 @@ public class MessageCategories {
         this.error = error;
     }
 
-    public Category[] getCategories() {
-        return categories;
+    public Category[] getThemes() {
+        return themes;
     }
 
-    public void setCategories(Category[] categories) {
-        this.categories = categories;
+    public void setThemes(Category[] themes) {
+        this.themes = themes;
     }
 }

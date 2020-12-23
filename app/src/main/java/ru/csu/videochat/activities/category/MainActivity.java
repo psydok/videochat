@@ -2,6 +2,7 @@ package ru.csu.videochat.activities.category;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.fragment_container, currentFragment).commit();
             return true;
         });
-
+        bottomNavigationView.setVisibility(View.GONE);
     }
 
     @Override

@@ -1,8 +1,11 @@
 package ru.csu.videochat.presents;
 
 import android.content.Context;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
+
+import java.util.List;
 
 import ru.csu.videochat.activities.category.CategoryFragment;
 import ru.csu.videochat.interfaces.ICategoryListener;
@@ -47,11 +50,8 @@ public class CategoryPresent {
     }
 
     public void loadCategories() {
-        model.getThemes(new ICategoryListener() {
-            @Override
-            public void showThemes(String[] themes) {
-                view.showCategories(themes);
-            }
+        model.getThemes(themes -> {
+            view.showCategories(themes);
         });
     }
 }

@@ -2,13 +2,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:foreground="?android:attr/selectableItemBackground">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/backgroundCategory"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
         android:layout_centerInParent="true"
-        android:background="@drawable/shape_category"/>
+        android:background="@drawable/shape_category" />
+
+    <ImageView
+        android:id="@+id/backgroundFill"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_fill_category" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -31,5 +44,6 @@
             android:layout_height="wrap_content"
             android:text="0" />
     </LinearLayout>
+
 
 </RelativeLayout>

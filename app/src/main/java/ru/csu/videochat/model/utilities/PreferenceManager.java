@@ -3,6 +3,7 @@ package ru.csu.videochat.model.utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 
 import java.util.ArrayList;
 
@@ -102,4 +103,33 @@ public class PreferenceManager {
         editor.clear();
         editor.apply();
     }
+
+    public static void putServerToken(Context context, String token) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.KEY_PREFERENCE_NAME_TOKEN, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.KEY_TOKEN, token);
+        editor.apply();
+    }
+
+    public static String getToken(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.KEY_PREFERENCE_NAME_TOKEN, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(Constants.KEY_TOKEN, null);
+    }
+
+    public static void putAvatar(Context context, String uriAvatar) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.KEY_PREFERENCE_NAME_AVATAR, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.KEY_AVATAR, uriAvatar);
+        editor.apply();
+    }
+
+    public static Uri getAvatar(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.KEY_PREFERENCE_NAME_AVATAR, Context.MODE_PRIVATE);
+        String avatar = sharedPreferences.getString(Constants.KEY_AVATAR, null);
+        if (avatar != null) {
+            return Uri.parse(avatar);
+        }
+        return null;
+    }
+
 }

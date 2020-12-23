@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".activities.category.MainActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateOnly="true" />
+
     <LinearLayout
         android:id="@+id/filter"
         android:layout_width="match_parent"
@@ -16,18 +23,20 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/personInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/filterText"
+                android:id="@+id/loginText"
                 style="@style/TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="4dp"
+                android:maxLength="15"
                 android:layout_marginRight="@dimen/title_bottom_margin"
                 android:text="@string/hint_email"
                 android:textColor="@color/black" />
@@ -47,6 +56,7 @@
                     android:id="@+id/imgProfile_view"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
+                    android:layout_marginTop="5dp"
                     android:layout_centerHorizontal="true"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_person" />

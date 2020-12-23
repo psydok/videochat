@@ -1,5 +1,6 @@
 package ru.csu.videochat.activities.auth;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,10 +21,11 @@ import ru.csu.videochat.activities.category.MainActivity;
 import ru.csu.videochat.network.CommunicationWithServer;
 
 public class AuthActivity extends BaseActivity implements View.OnClickListener {
+    public static Context contextApp;
     private static final String TAG = "EmailPassword";
 
-   // private TextView mStatusTextView;
-   // private TextView mDetailTextView;
+    private TextView mStatusTextView;
+    // private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
 
@@ -36,13 +38,14 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+        contextApp = getApplicationContext();
 
         // Inner memory
         sharedPreferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
 
         // Views
-      //  mStatusTextView = findViewById(R.id.status);
-       // mDetailTextView = findViewById(R.id.detail);
+        mStatusTextView = findViewById(R.id.status);
+        // mDetailTextView = findViewById(R.id.detail);
         mEmailField = findViewById(R.id.fieldEmail);
         mPasswordField = findViewById(R.id.fieldPassword);
 
@@ -127,7 +130,7 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                     }
 
                     if (!task.isSuccessful()) {
-                //        mStatusTextView.setText(R.string.auth_failed);
+                        mStatusTextView.setText(R.string.auth_failed);
                     }
                     hideProgressBar();
                 });
@@ -146,7 +149,7 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(AuthActivity.this,
-                                getString(R.string.desc_send_email) + user.getEmail(),
+                                getString(R.string.desc_send_email) + " " + user.getEmail(),
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(AuthActivity.this,
@@ -180,15 +183,17 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
 
     private void updateUI(FirebaseUser user) {
         hideProgressBar();
+
         if (user != null) {
             if (user.isEmailVerified()) {
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             } else {
-             //   mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
-             //           user.getEmail(), user.isEmailVerified()));
-            //    mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+                mStatusTextView.setVisibility(View.VISIBLE);
+                mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
+                        user.getEmail(), (user.isEmailVerified()) ? "да" : "Необходимо подтвердить email."));
+                //    mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
                 findViewById(R.id.emailPasswordButtons).setVisibility(View.GONE);
                 findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
@@ -197,7 +202,8 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                 findViewById(R.id.verifyEmailButton).setEnabled(!user.isEmailVerified());
             }
         } else {
-//            mStatusTextView.setText(R.string.signed_out);
+            mStatusTextView.setVisibility(View.GONE);
+            mStatusTextView.setText(R.string.signed_out);
 //            mDetailTextView.setText(null);
             findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
             findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);

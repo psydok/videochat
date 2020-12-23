@@ -4,18 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_search_user"
     tools:context=".activities.chat.SearchChatActivity">
-
-    <ImageView
-        android:id="@+id/userVideo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_nav_search"
-        android:background="@drawable/background_search_user" />
 
     <TextView
         android:id="@+id/selectCategory"
-        style="@style/ThemeOverlay.MyTitleText"
+        style="@style/AllTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -23,37 +17,54 @@
         android:layout_marginStart="@dimen/icon_top_margin"
         android:layout_marginTop="@dimen/icon_top_margin"
         android:text="@string/select_category"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/info_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/title_bottom_margin"
         android:orientation="vertical">
 
-        <ImageView
+        <TextView
+            android:id="@+id/firstText"
+            style="@style/AllTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_video" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/title_bottom_margin"
+            android:layout_marginRight="@dimen/title_bottom_margin"
+            android:layout_marginLeft="@dimen/title_bottom_margin"
+            android:text="Поиск"
+            android:textSize="36sp"/>
 
         <TextView
-            style="@style/ThemeOverlay.MyTitleText"
+            style="@style/AllTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Поиск собеседника..."
-            android:textColor="@color/white"
-            android:textSize="24sp" />
-    </LinearLayout>
+            android:layout_below="@id/firstText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="@dimen/title_bottom_margin"
+            android:layout_marginLeft="@dimen/title_bottom_margin"
+            android:text="собеседника"
+            android:textSize="36sp"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_search_menu" />
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateOnly="true" />
+
+        <ImageView
+            android:id="@+id/icon_close_search"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="76dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_close" />
+    </RelativeLayout>
 
 </RelativeLayout>

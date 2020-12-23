@@ -252,7 +252,6 @@ public class SearchChatModel {
         } catch (Exception exception) {
             Toast.makeText(context, "Invitation error: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private void sendRemoteMessage(String remoteMessageBody, String type) {

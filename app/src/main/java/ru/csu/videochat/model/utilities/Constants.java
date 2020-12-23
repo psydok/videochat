@@ -15,6 +15,8 @@ public class Constants {
     public static final String KEY_CHAT_UID_SECOND_TOKEN = "uid2Token";
 
     public static final String KEY_PREFERENCE_NAME = "videoMeetingPreference";
+    public static final String KEY_PREFERENCE_NAME_TOKEN = "serverToken";
+    public static final String KEY_PREFERENCE_NAME_AVATAR = "avatar";
     public static final String KEY_FCM_TOKEN = "fcm_token";
 
     public static final String REMOTE_MSG_AUTHORIZATION = "Authorization";
@@ -37,6 +39,8 @@ public class Constants {
     public static final String KEY_LOGIN = "login";
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_TOKEN = "token";
+    public static final String KEY_AVATAR = "image";
+    public static final String KEY_LINK = "link";
 
 
     public static HashMap<String, String> getRemoteMessageHeaders() {
