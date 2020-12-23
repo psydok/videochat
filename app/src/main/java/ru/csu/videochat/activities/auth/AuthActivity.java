@@ -102,7 +102,7 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
                     } else {
-                        Toast.makeText(AuthActivity.this, getString(R.string.auth_failed),
+                        Toast.makeText(AuthActivity.this, getString(R.string.register_failed),
                                 Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }

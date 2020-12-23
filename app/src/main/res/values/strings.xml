@@ -15,7 +15,8 @@
     <string name="hint_email">Логин</string>
     <string name="hint_password">Пароль</string>
     <string name="desc_videochat_lockup">VideoChat logo and name</string>
-    <string name="auth_failed">Ошибка аутентификации</string>
+    <string name="auth_failed">Неправильный логин или пароль</string>
+    <string name="register_failed">Возможно такой пользователь уже существует</string>
     <string name="status_sign_in_failed">Ошибка входа</string>
     <string name="instant_validation">(instant validation)</string>
     <string name="emailpassword_status_fmt">

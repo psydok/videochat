@@ -10,6 +10,8 @@
         android:layout_width="190dp"
         android:layout_height="190dp"
         android:scaleType="fitXY"
+        android:maxWidth="200dp"
+        android:maxHeight="200dp"
         android:adjustViewBounds="true"
         android:layout_centerInParent="true"
         android:background="@drawable/shape_category" />
@@ -18,7 +20,7 @@
         android:id="@+id/backgroundFill"
         android:layout_width="190dp"
         android:layout_height="190dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:adjustViewBounds="true"
         android:layout_centerInParent="true"
         android:background="@drawable/shape_fill_category" />

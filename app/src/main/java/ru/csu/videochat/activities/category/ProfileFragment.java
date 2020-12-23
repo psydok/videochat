@@ -108,6 +108,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     } else
                         Toast.makeText(getContext(), "Неправильная ссылка", Toast.LENGTH_LONG).show();
                 }
+                break;
             case SELECT_IMAGE:
                 if (resultCode == Activity.RESULT_OK) {
                     Uri selectedImage = data.getData();
@@ -120,6 +121,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                             .transform(new CropCircleTransformation())
                             .into(mImgProfile);
                 }
+                break;
         }
     }
 

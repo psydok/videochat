@@ -141,8 +141,8 @@ public class CategoryAdapter extends ArrayAdapter<Pair<String, String>> {
                     .load(category.second)
                     .transform(transformation)
                     .transform(new CropSquareTransformation())
-                    .error(R.drawable.shape_category)
                     .resize(200,200)
+                    .error(R.drawable.shape_category)
                     .into(backgroundCategory);
         }
         title.setText(categoryTitle);
