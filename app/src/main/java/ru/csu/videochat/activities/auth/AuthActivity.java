@@ -51,6 +51,14 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.verifyEmailButton).setOnClickListener(this);
         findViewById(R.id.reloadButton).setOnClickListener(this);
 
+        findViewById(R.id.emailSignInButton1).setOnClickListener(this);
+        findViewById(R.id.emailCreateAccountButton1).setOnClickListener(this);
+
+        findViewById(R.id.emailSignInButton).setVisibility(View.VISIBLE);
+        findViewById(R.id.emailCreateAccountButton).setVisibility(View.GONE);
+        findViewById(R.id.emailSignInButton1).setVisibility(View.GONE);
+        findViewById(R.id.emailCreateAccountButton1).setVisibility(View.VISIBLE);
+
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -236,6 +244,18 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.reloadButton:
                 updateUser();
+                break;
+            case R.id.emailCreateAccountButton1:
+                findViewById(R.id.emailSignInButton).setVisibility(View.GONE);
+                findViewById(R.id.emailCreateAccountButton).setVisibility(View.VISIBLE);
+                findViewById(R.id.emailSignInButton1).setVisibility(View.VISIBLE);
+                findViewById(R.id.emailCreateAccountButton1).setVisibility(View.GONE);
+                break;
+            case R.id.emailSignInButton1:
+                findViewById(R.id.emailSignInButton).setVisibility(View.VISIBLE);
+                findViewById(R.id.emailCreateAccountButton).setVisibility(View.GONE);
+                findViewById(R.id.emailSignInButton1).setVisibility(View.GONE);
+                findViewById(R.id.emailCreateAccountButton1).setVisibility(View.VISIBLE);
                 break;
         }
     }

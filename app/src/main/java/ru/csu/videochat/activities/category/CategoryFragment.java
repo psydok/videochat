@@ -64,6 +64,9 @@ public class CategoryFragment extends Fragment {
         mProgressBar = view.findViewById(R.id.progressBar);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser.isAnonymous()) {
+            getActivity().finish();
+        }
         String email = currentUser.getEmail();
         if (email.length() > 15) {
             String subEmail = email.substring(0, 15) + "...";

@@ -17,27 +17,61 @@
         android:indeterminate="true"
         android:visibility="invisible" />
 
+    <Button
+        android:id="@+id/emailCreateAccountButton1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/button_horizontal_margin"
+        android:layout_marginEnd="@dimen/button_horizontal_margin"
+        android:text="@string/create_account"
+        android:textAllCaps="false"
+        android:textColor="@color/blue_main"
+        android:theme="@style/TextView"
+        android:visibility="gone"
+        app:backgroundTint="@color/white"
+        app:cornerRadius="@dimen/field_radius"
+        app:strokeColor="@color/blue_main"
+        app:strokeWidth="@dimen/stroke_width" />
+
+    <Button
+        android:id="@+id/emailSignInButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/button_horizontal_margin"
+        android:layout_marginEnd="@dimen/button_horizontal_margin"
+        android:text="@string/sign_in"
+        android:textAllCaps="false"
+        android:theme="@style/TextView"
+        android:visibility="gone"
+        app:backgroundTint="@color/blue_main"
+        app:cornerRadius="@dimen/field_radius"
+        app:strokeColor="@color/blue_main"
+        app:strokeWidth="@dimen/stroke_width" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
+
             <TextView
                 android:id="@+id/status"
+                style="@style/AllTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_gravity="center"
-                style="@style/AllTextView"
-                android:textSize="@dimen/size_text_sub_main"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="@string/signed_out"/>
+                android:text="@string/signed_out"
+                android:textSize="@dimen/size_text_sub_main"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -47,6 +81,7 @@
             android:orientation="vertical"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
+
             <TextView
                 style="@style/AllTextView"
                 android:layout_width="wrap_content"
@@ -74,8 +109,8 @@
                 style="@style/AllTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/title_bottom_margin"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/title_bottom_margin"
                 android:text="@string/hint_password" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -102,11 +137,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/emailPasswordFields"
-            android:orientation="vertical"
             android:gravity="center"
+            android:orientation="vertical"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            >
+            android:paddingRight="16dp">
 
             <Button
                 android:id="@+id/emailSignInButton"
@@ -116,13 +150,12 @@
                 android:layout_marginTop="@dimen/title_bottom_margin"
                 android:layout_marginEnd="@dimen/button_horizontal_margin"
                 android:text="@string/sign_in"
-                android:theme="@style/TextView"
-                app:strokeWidth="@dimen/stroke_width"
-                app:strokeColor="@color/blue_main"
-                app:cornerRadius="@dimen/field_radius"
-                app:backgroundTint="@color/blue_main"
                 android:textAllCaps="false"
-                />
+                android:theme="@style/TextView"
+                app:backgroundTint="@color/blue_main"
+                app:cornerRadius="@dimen/field_radius"
+                app:strokeColor="@color/blue_main"
+                app:strokeWidth="@dimen/stroke_width" />
 
             <Button
                 android:id="@+id/emailCreateAccountButton"
@@ -130,15 +163,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/button_horizontal_margin"
                 android:layout_marginEnd="@dimen/button_horizontal_margin"
+                android:layout_marginTop="@dimen/title_bottom_margin"
                 android:text="@string/create_account"
-                android:theme="@style/TextView"
-                android:textColor="@color/blue_main"
-                app:strokeWidth="@dimen/stroke_width"
-                app:strokeColor="@color/blue_main"
-                app:cornerRadius="@dimen/field_radius"
                 android:textAllCaps="false"
+                android:textColor="@color/blue_main"
+                android:theme="@style/TextView"
                 app:backgroundTint="@color/white"
-                />
+                app:cornerRadius="@dimen/field_radius"
+                app:strokeColor="@color/blue_main"
+                app:strokeWidth="@dimen/stroke_width" />
         </LinearLayout>
 
         <LinearLayout
@@ -165,12 +198,12 @@
                     android:layout_marginEnd="@dimen/button_horizontal_margin"
                     android:layout_weight="1"
                     android:text="@string/sign_out"
+                    android:textAllCaps="false"
                     android:theme="@style/TextView"
-                    app:strokeWidth="@dimen/stroke_width"
-                    app:strokeColor="@color/blue_main"
-                    app:cornerRadius="@dimen/field_radius"
                     app:backgroundTint="@color/blue_main"
-                    android:textAllCaps="false"/>
+                    app:cornerRadius="@dimen/field_radius"
+                    app:strokeColor="@color/blue_main"
+                    app:strokeWidth="@dimen/stroke_width" />
 
                 <Button
                     android:id="@+id/reloadButton"
@@ -180,12 +213,12 @@
                     android:layout_marginEnd="@dimen/button_horizontal_margin"
                     android:layout_weight="1"
                     android:text="@string/reload"
+                    android:textAllCaps="false"
                     android:theme="@style/TextView"
-                    app:strokeWidth="@dimen/stroke_width"
-                    app:strokeColor="@color/blue_main"
-                    app:cornerRadius="@dimen/field_radius"
                     app:backgroundTint="@color/blue_main"
-                    android:textAllCaps="false" />
+                    app:cornerRadius="@dimen/field_radius"
+                    app:strokeColor="@color/blue_main"
+                    app:strokeWidth="@dimen/stroke_width" />
             </LinearLayout>
 
             <Button
@@ -197,12 +230,12 @@
                 android:layout_marginEnd="@dimen/button_horizontal_margin"
                 android:layout_weight="1"
                 android:text="@string/verify_email"
+                android:textAllCaps="false"
                 android:theme="@style/TextView"
-                app:strokeWidth="@dimen/stroke_width"
-                app:strokeColor="@color/blue_main"
-                app:cornerRadius="@dimen/field_radius"
                 app:backgroundTint="@color/blue_main"
-                android:textAllCaps="false"/>
+                app:cornerRadius="@dimen/field_radius"
+                app:strokeColor="@color/blue_main"
+                app:strokeWidth="@dimen/stroke_width" />
         </LinearLayout>
 
     </RelativeLayout>
