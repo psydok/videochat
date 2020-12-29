@@ -2,7 +2,6 @@ package ru.csu.videochat.activities.auth;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import ru.csu.videochat.R;
 import ru.csu.videochat.activities.category.MainActivity;
+import ru.csu.videochat.model.utilities.AESCrypt;
+import ru.csu.videochat.model.utilities.Constants;
 import ru.csu.videochat.network.CommunicationWithServer;
 
 public class AuthActivity extends BaseActivity implements View.OnClickListener {
@@ -25,14 +26,12 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
 
     private TextView mStatusTextView;
-    // private TextView mDetailTextView;
+
     private EditText mEmailField;
     private EditText mPasswordField;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
-    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,12 +39,8 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_auth);
         contextApp = getApplicationContext();
 
-        // Inner memory
-        sharedPreferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-
         // Views
         mStatusTextView = findViewById(R.id.status);
-        // mDetailTextView = findViewById(R.id.detail);
         mEmailField = findViewById(R.id.fieldEmail);
         mPasswordField = findViewById(R.id.fieldPassword);
 
@@ -78,14 +73,6 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-//        String key = "isFirstStart";
-//        if (sharedPreferences.getBoolean(key, true)) {
-//            SharedPreferences.Editor editor = sharedPreferences.edit();
-//            editor.putBoolean(key, false).apply();
-//            editor.apply();
-//            editor.commit();
-//            mStatusTextView.setVisibility(View.INVISIBLE);
-//        } else mStatusTextView.setVisibility(View.VISIBLE);
     }
 
     private void createAccount(String email, String password) {
@@ -98,7 +85,13 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        CommunicationWithServer.sendMessageRegister(email, password);
+                        try {
+//                            String newEmail = getSecret(email);
+//                            String newPasswd = getSecret(password);
+                            CommunicationWithServer.sendMessageRegister(email, password);
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
                     } else {
@@ -106,9 +99,14 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                                 Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }
-
                     hideProgressBar();
                 });
+    }
+
+    private String getSecret(String value) throws Exception {
+        String newValue = AESCrypt.encrypt(Constants.SALT_FIRST + value + Constants.SALT_SECOND);
+        newValue = newValue.replaceAll("\n", "").trim();
+        return newValue;
     }
 
     private void signIn(String email, String password) {
@@ -120,9 +118,14 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        CommunicationWithServer.sendMessageAuth(email, password);
+                        try {
+                            CommunicationWithServer.sendMessageAuth(email, password);
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
+
                     } else {
                         Toast.makeText(AuthActivity.this, getString(R.string.auth_failed),
                                 Toast.LENGTH_SHORT).show();
@@ -193,7 +196,6 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                 mStatusTextView.setVisibility(View.VISIBLE);
                 mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
                         user.getEmail(), (user.isEmailVerified()) ? "да" : "Необходимо подтвердить email."));
-                //    mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
                 findViewById(R.id.emailPasswordButtons).setVisibility(View.GONE);
                 findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
@@ -204,7 +206,6 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         } else {
             mStatusTextView.setVisibility(View.GONE);
             mStatusTextView.setText(R.string.signed_out);
-//            mDetailTextView.setText(null);
             findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
             findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
             findViewById(R.id.signedInButtons).setVisibility(View.GONE);
@@ -222,10 +223,10 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         int i = v.getId();
         switch (i) {
             case R.id.emailCreateAccountButton:
-                createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+                createAccount(mEmailField.getText().toString().trim(), mPasswordField.getText().toString().trim());
                 break;
             case R.id.emailSignInButton:
-                signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+                signIn(mEmailField.getText().toString().trim(), mPasswordField.getText().toString().trim());
                 break;
             case R.id.signOutButton:
                 signOut();

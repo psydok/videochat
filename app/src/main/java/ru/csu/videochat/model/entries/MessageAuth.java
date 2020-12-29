@@ -10,9 +10,9 @@ public class MessageAuth {
     @JsonProperty(value = "token")
     private String token;
     @JsonProperty(value = "user")
-    private ServerUser[] user;
+    private ServerUser user;
 
-    public MessageAuth(int status, String message, String token, ServerUser[] user) {
+    public MessageAuth(int status, String message, String token, ServerUser user) {
         this.status = status;
         this.message = message;
         this.token = token;
@@ -46,11 +46,11 @@ public class MessageAuth {
         this.token = token;
     }
 
-    public ServerUser[] getUser() {
+    public ServerUser getUser() {
         return user;
     }
 
-    public void setUser(ServerUser[] user) {
+    public void setUser(ServerUser user) {
         this.user = user;
     }
 }

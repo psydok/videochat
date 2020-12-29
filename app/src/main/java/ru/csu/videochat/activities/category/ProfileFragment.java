@@ -55,7 +55,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         mImgProfile = view.findViewById(R.id.imgProfile_view);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        mStatusTextView.setText(user.getEmail());
+        if (user.isAnonymous()) {
+            getActivity().finish();
+        }
+        String email = user.getEmail();
+        if (email.length() > 15) {
+            String subEmail = email.substring(0, 15) + "...";
+            mStatusTextView.setText(subEmail);
+        } else mStatusTextView.setText(email);
+
 
         view.findViewById(R.id.createAvatar).setOnClickListener(this);
         view.findViewById(R.id.signOutButton).setOnClickListener(this);

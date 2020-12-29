@@ -42,7 +42,6 @@ public class CommunicationWithServer {
         Gson gson = builder.create();
         MessageAuth messageAuth = gson.fromJson(responseBody, MessageAuth.class);
         String token = messageAuth.getToken();
-
         PreferenceManager.putServerToken(AuthActivity.contextApp, token);
     }
 
@@ -140,14 +139,7 @@ public class CommunicationWithServer {
                             String body = response.body();
                             List<Pair<String, String>> themes = new ArrayList<>();
                             if (getStatusMessage(body) != 1) {
-                                List<Pair<String, String>> pairs = new ArrayList<Pair<String, String>>();
-                                pairs.add(new Pair<>("Спорт", "https://gtrk-saratov.ru/wp-content/uploads/2019/12/5f2f983b1d838ee26be6b93a38fa378c.jpg"));
-                                pairs.add(new Pair<>("Кино", "https://cdn22.img.ria.ru/images/91548/33/915483359_0:203:3888:2390_600x0_80_0_0_d82704e34388d68bdcf57766e7b0b361.jpg"));
-                                pairs.add(new Pair<>("Игры", "https://www.goodnewsfinland.com/wp-content/uploads/2019/08/Games-765x430.png"));
-                                pairs.add(new Pair<>("Кулинария", "https://recipesbook.ru/uploads/posts/2012-08/1345130069_finskaya-kuhnya.jpeg"));
-                                pairs.add(new Pair<>("Литература", "https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/132/309/image/base_93959877b0.jpg"));
-                                pairs.add(new Pair<>("Музыка", "https://m.iguides.ru/upload/iblock/3a0/3a0569a7237bbfb5406580deed8a9958.jpg"));
-                                listener.showThemes(themes);
+                                listener.showThemes(Constants.getCategory());
                                 return;
                             }
                             MessageCategories messageCategories = getResponseMessageCategories(body);

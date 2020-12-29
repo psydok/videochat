@@ -37,7 +37,7 @@ public class CategoryFragment extends Fragment {
     private TextView mLoginText;
     private ImageView mImgProfile;
     private LinearLayout layoutPerson;
-    //    private ChipGroup yourAgeChips;
+//    private ChipGroup yourAgeChips;
 //    private Chip yourAgeChip;
 //    private ChipGroup companionAgeChips;
 //    private Button goneFilter;
@@ -64,7 +64,12 @@ public class CategoryFragment extends Fragment {
         mProgressBar = view.findViewById(R.id.progressBar);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        mLoginText.setText(currentUser.getEmail());
+        String email = currentUser.getEmail();
+        if (email.length() > 15) {
+            String subEmail = email.substring(0, 15) + "...";
+            mLoginText.setText(subEmail);
+        } else mLoginText.setText(email);
+
         mImgProfile = (ImageView) view.findViewById(R.id.imgProfile_view);
 
         Uri avatar = PreferenceManager.getAvatar(getContext());
